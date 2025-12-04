@@ -273,7 +273,6 @@ form button {
       background: rgba(255,255,255,0.15);
       padding: 2rem;
       background-color: #b5aec7;
-      margin-left: 160px;
       border-radius: 16px;
       backdrop-filter: blur(15px);
       border: 1px solid rgba(255,255,255,0.25);
@@ -281,7 +280,7 @@ form button {
 
     .room-checker {
   width: 70%; 
-  margin-right: 30%;
+  margin: auto;
 }
 
 
