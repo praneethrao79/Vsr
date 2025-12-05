@@ -97,3 +97,130 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     priceResult.textContent = `Price for ${roomTypeSelect.options[roomTypeSelect.selectedIndex].text}: ${price}`;
   });
 
+
+// Image gallery data with captions
+const images = [
+    {
+        url: 'pictures/biryani.jpg',
+        caption: 'Delicious Biryani / Chicken curry on sundays'
+    },
+    {
+        url: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&h=600&fit=crop',
+        caption: 'Traditional Curry Dishes'
+    },
+    {
+        url: 'pictures/dosa.jpg',
+        caption: 'Tasty Tiffins'
+    },
+    {
+        url: 'pictures/6165488118656601153.jpg',
+        caption: 'Building Environment'
+    },
+    {
+        url: 'pictures/women1.jpg',
+        caption: 'Working Womens'
+    },
+    {
+        url: 'pictures/women2.jpg',
+        caption: 'Students'
+    },
+    {
+        url: 'pictures/image1.jfif',
+        caption: 'Clean and Hygienic Living Space with Attached Toilets'
+    },
+    {
+        url: 'pictures/TV.jfif',
+        caption: 'TV in dining area'
+    }
+];
+
+let currentIndex = 0;
+
+// DOM Elements
+const galleryImage = document.getElementById('galleryImage');
+const imageCaption = document.getElementById('imageCaption');
+const leftArrow = document.getElementById('leftArrow');
+const rightArrow = document.getElementById('rightArrow');
+const dotsContainer = document.getElementById('dotsContainer');
+
+// Initialize gallery
+function initGallery() {
+    // Create dots
+    images.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.classList.add('dot');
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(index));
+        dotsContainer.appendChild(dot);
+    });
+
+    // Display first image
+    updateImage();
+}
+
+// Update image and caption
+function updateImage() {
+    galleryImage.src = images[currentIndex].url;
+    imageCaption.textContent = images[currentIndex].caption;
+
+    // Update dots
+    const dots = document.querySelectorAll('.dot');
+    dots.forEach((dot, index) => {
+        if (index === currentIndex) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
+        }
+    });
+}
+
+// Navigate to specific slide
+function goToSlide(index) {
+    currentIndex = index;
+    updateImage();
+}
+
+// Navigate to next image
+function nextImage() {
+    currentIndex = (currentIndex + 1) % images.length;
+    updateImage();
+}
+
+// Navigate to previous image
+function prevImage() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    updateImage();
+}
+
+// Event listeners
+leftArrow.addEventListener('click', prevImage);
+rightArrow.addEventListener('click', nextImage);
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') {
+        prevImage();
+    } else if (e.key === 'ArrowRight') {
+        nextImage();
+    }
+});
+
+// Auto-play functionality (optional)
+let autoPlayInterval;
+
+function startAutoPlay() {
+    autoPlayInterval = setInterval(nextImage, 4000);
+}
+
+function stopAutoPlay() {
+    clearInterval(autoPlayInterval);
+}
+
+// Pause auto-play on hover
+const galleryContainer = document.querySelector('.gallery-container');
+galleryContainer.addEventListener('mouseenter', stopAutoPlay);
+galleryContainer.addEventListener('mouseleave', startAutoPlay);
+
+// Initialize on page load
+initGallery();
+// startAutoPlay(); // Uncomment to enable auto-play
